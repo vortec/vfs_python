@@ -1,6 +1,6 @@
-#include "../source3/include/includes.h"
-#include "lib/util/tevent_unix.h"
-#include "lib/util/tevent_ntstatus.h"
+#include "include/includes.h"
+#include "../lib/util/tevent_unix.h"
+#include "../lib/util/tevent_ntstatus.h"
 /*#include "/usr/include/python2.7/Python.h"*/
 
 static int python_connect(vfs_handle_struct *handle,
