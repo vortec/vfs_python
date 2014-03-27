@@ -3,15 +3,28 @@
 #include "../lib/util/tevent_ntstatus.h"
 #include "python2.7/Python.h"
 
+
+static void debug(const char *text)
+{
+    FILE *fp = fopen("/home/vortec/xx", "a");
+    if (fp)
+    {
+	fprintf(fp, "%s\n", text);
+	fclose(fp);
+    }
+}
+
 static int python_connect(vfs_handle_struct *handle,
                              const char *service,
                              const char *user)
 {
-    Py_Initialize();
-    /*PyObject *py_imp_str, *py_imp_handle, *py_imp_dict, *py_imp_load_source;
-    PyObject *py_dir, *py_lib_name, *py_args_tuple, *py_lib_mod, *py_lib_mod_dict, *py_func, *py_ret;
     const char *script = lp_parm_const_string(SNUM(handle->conn), "python", "script", NULL);
-
+    
+    PyObject *py_imp_str, *py_imp_handle, *py_imp_dict, *py_imp_load_source;
+    PyObject *py_dir, *py_lib_name, *py_args_tuple, *py_lib_mod, *py_lib_mod_dict, *py_func, *py_ret;
+    
+    Py_Initialize();
+    
     py_dir = PyString_FromString(script);
     py_imp_str = PyString_FromString("imp");
     py_imp_handle = PyImport_Import(py_imp_str);
@@ -23,23 +36,10 @@ static int python_connect(vfs_handle_struct *handle,
     PyTuple_SetItem(py_args_tuple, 0, py_lib_name);
     PyTuple_SetItem(py_args_tuple, 1, py_dir);
 
-    //call imp.load_source
     py_lib_mod = PyObject_CallObject(py_imp_load_source, py_args_tuple);
     py_lib_mod_dict = PyModule_GetDict(py_lib_mod);
-
     py_func = PyDict_GetItem(py_lib_mod_dict, py_lib_name);
-    py_ret = PyObject_CallFunction(py_func, NULL);*/
-
-    FILE *fp = fopen("/home/vortec/xx", "a");
-    if (1)
-    {
-	fprintf(fp, "worked.\n");
-    }
-    else
-    {
-	fprintf(fp, "error\n");
-    }
-    fclose(fp);
+    py_ret = PyObject_CallFunction(py_func, NULL);
     
     return SMB_VFS_NEXT_CONNECT(handle, service, user);
 }
