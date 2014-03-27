@@ -1,12 +1,14 @@
 #include "include/includes.h"
 #include "../lib/util/tevent_unix.h"
 #include "../lib/util/tevent_ntstatus.h"
+#include "python2.7/Python.h"
 /*#include "/usr/include/python2.7/Python.h"*/
 
 static int python_connect(vfs_handle_struct *handle,
                              const char *service,
                              const char *user)
 {
+    Py_Initialize();
     /*PyObject *py_imp_str, *py_imp_handle, *py_imp_dict, *py_imp_load_source;
     PyObject *py_dir, *py_lib_name, *py_args_tuple, *py_lib_mod, *py_lib_mod_dict, *py_func, *py_ret;
     const char *script = lp_parm_const_string(SNUM(handle->conn), "python", "script", NULL);
