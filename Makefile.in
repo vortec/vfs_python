@@ -35,8 +35,7 @@ VFS_LIBDIR	= $(libdir)/vfs
 # then rerun configure before you can build.
 
 # Change these targets to the names of your modules if building out of tree
-MODULES		= skel_opaque.@SHLIBEXT@ shadow_copy_test.@SHLIBEXT@ \
-		skel_transparent.@SHLIBEXT@
+MODULES		= vfs_python.@SHLIBEXT@ 
 
 all: $(MODULES)
 
