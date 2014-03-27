@@ -3,6 +3,7 @@ CFLAGS		= @CFLAGS@
 CPPFLAGS	= @CPPFLAGS@
 LDFLAGS		= @LDFLAGS@
 LDSHFLAGS	= @LDSHFLAGS@
+LDSUFFIX	= -lpython2.7
 INSTALLCMD	= @INSTALL@
 SAMBA_SOURCE	= @SAMBA_SOURCE@
 SHLIBEXT	= @SHLIBEXT@
@@ -50,7 +51,7 @@ all: $(MODULES)
 	@echo "Compiling $<"
 	@$(CC) $(FLAGS) -c $< -D$*_init=samba_init_module
 	@echo "Linking $@"
-	@$(CC) $(LDSHFLAGS) $(LDFLAGS) $*.@OBJEXT@ -o $*.@SHLIBEXT@
+	@$(CC) $(LDSHFLAGS) $(LDFLAGS) $*.@OBJEXT@ -o $*.@SHLIBEXT@ $(LDSUFFIX)
 
 # You might need to uncomment this if you have other .c files to compile
 #.c.@OBJEXT@:
