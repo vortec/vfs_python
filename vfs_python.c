@@ -8,6 +8,7 @@ PyObject *py_mod;
 static void debug(const char *text)
 {
     FILE *fp = fopen("/home/vortec/workspace/vfs_python/log", "a");
+
     if (fp)
     {
 	fprintf(fp, "SAMBA: %s\n", text);
@@ -15,7 +16,7 @@ static void debug(const char *text)
     }
 }
 
-static PyObject *py_import_handler(const char *script_path)
+static void py_import_handler(const char *script_path)
 {
     PyObject *py_dir, *py_imp_str, *py_imp_handle, *py_imp_dict, *py_imp_load_source;
     PyObject *py_function_name, *py_args_tuple;
@@ -29,20 +30,19 @@ static PyObject *py_import_handler(const char *script_path)
     py_imp_load_source = PyDict_GetItemString(py_imp_dict, "load_source");
     py_function_name = PyString_FromString("connect");
 
+    // TODO:
+    // remove py_function_name, should import entire module
     py_args_tuple = PyTuple_New(2);  // may not be Py_DECREF'ed
     PyTuple_SetItem(py_args_tuple, 0, py_function_name);
     PyTuple_SetItem(py_args_tuple, 1, py_dir);
     
     py_mod = PyObject_CallObject(py_imp_load_source, py_args_tuple);
     
-    Py_DECREF(py_dir);
+    Py_DECREF(py_args_tuple);
     Py_DECREF(py_imp_str);
     Py_DECREF(py_imp_handle);
     Py_DECREF(py_imp_dict);
     Py_DECREF(py_imp_load_source);
-    Py_DECREF(py_function_name);
-
-    return py_mod;
 }
 
 static int python_connect(vfs_handle_struct *handle,
@@ -50,6 +50,7 @@ static int python_connect(vfs_handle_struct *handle,
                           const char *user)
 {
     const char *script_path = lp_parm_const_string(SNUM(handle->conn), "python", "script", NULL);
+    // todo: needs null-termination?
     const char *function_name = "connect";
     
     py_import_handler(script_path);
@@ -63,6 +64,7 @@ static int python_connect(vfs_handle_struct *handle,
     {
 	if (PyCallable_Check(py_func) == 1)
 	{
+	    // todo: callfunction expects char *, not const char *
 	    PyObject *py_ret = PyObject_CallFunction(py_func, "ss", service, user);
 	    success = PyObject_IsTrue(py_ret);
 	    Py_DECREF(py_ret);
