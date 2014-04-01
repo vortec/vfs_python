@@ -15,7 +15,7 @@ static void debug(const char *text)
     }
 }
 
-static PyObject * py_import_handler(const char *script_path)
+static PyObject *py_import_handler(const char *script_path)
 {
     PyObject *py_dir, *py_imp_str, *py_imp_handle, *py_imp_dict, *py_imp_load_source;
     PyObject *py_function_name, *py_args_tuple;
@@ -46,15 +46,15 @@ static PyObject * py_import_handler(const char *script_path)
 }
 
 static int python_connect(vfs_handle_struct *handle,
-                             const char *service,
-                             const char *user)
+                          const char *service,
+                          const char *user)
 {
     const char *script_path = lp_parm_const_string(SNUM(handle->conn), "python", "script", NULL);
     const char *function_name = "connect";
     
     py_import_handler(script_path);
     
-    int success = 0;
+    int success = 1;
     PyObject *py_function_name = PyString_FromString(function_name);
     PyObject *py_func = PyObject_GetAttr(py_mod, py_function_name);
     Py_DECREF(py_function_name);
@@ -82,14 +82,6 @@ static int python_connect(vfs_handle_struct *handle,
 
 static void python_disconnect(vfs_handle_struct *handle)
 {
-    FILE *f = fopen("/tmp/mylog.txt", "a");
-    if (f != NULL)
-    {
-        const char *text = "Connection disconnected.";
-        fprintf(f, "%s\n", text);
-        fclose(f);
-    }
-
     SMB_VFS_NEXT_DISCONNECT(handle);
 }
 
