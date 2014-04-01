@@ -54,27 +54,22 @@ static int python_connect(vfs_handle_struct *handle,
     
     py_import_handler(script_path);
     
-    PyObject *py_function_name = PyString_FromString(function_name);
-    PyObject *py_mod_dict, *py_func, *py_ret;
     int success = 0;
-    
-    py_mod_dict = PyModule_GetDict(py_mod);
-    py_func = PyDict_GetItem(py_mod_dict, py_function_name);
-    
-    // check before call:
-    // does exist?
-    // is callable?
-    py_ret = PyObject_CallFunction(py_func, "ss", service, user);
-    if (py_ret != NULL)
-    {
-	success = PyObject_IsTrue(py_ret);
-    }
-    
+    PyObject *py_function_name = PyString_FromString(function_name);
+    PyObject *py_func = PyObject_GetAttr(py_mod, py_function_name);
     Py_DECREF(py_function_name);
-    Py_DECREF(py_mod_dict);
-    Py_DECREF(py_func);
-    Py_DECREF(py_ret);
-    
+        
+    if (py_func != NULL)
+    {
+	if (PyCallable_Check(py_func) == 1)
+	{
+	    PyObject *py_ret = PyObject_CallFunction(py_func, "ss", service, user);
+	    success = PyObject_IsTrue(py_ret);
+	    Py_DECREF(py_ret);
+	}
+	Py_DECREF(py_func);
+    }
+        
     if (success == 1)
     {
 	return SMB_VFS_NEXT_CONNECT(handle, service, user);
