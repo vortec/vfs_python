@@ -1,6 +1,7 @@
 Makefile
 config.log
 config.status
+*.pyc
 
 # Object files
 *.o
