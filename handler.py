@@ -5,3 +5,7 @@ def debug(text):
 def connect(service='default', user='default'):
     debug('{} has connected to {}.'.format(user, service))
     return True
+
+def mkdir(path):
+    debug('Create dir: {}'.format(path))
+    return True

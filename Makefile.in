@@ -7,7 +7,7 @@ LDSUFFIX	= -lpython2.7
 INSTALLCMD	= @INSTALL@
 SAMBA_SOURCE	= @SAMBA_SOURCE@
 SHLIBEXT	= @SHLIBEXT@
-OBJEXT		= @OBJEXT@ 
+OBJEXT		= @OBJEXT@
 FLAGS		=  $(CFLAGS) $(CPPFLAGS) -fPIC \
 		-Iinclude -I$(SAMBA_SOURCE)/include \
 		-I$(SAMBA_SOURCE)/include/autoconf \
@@ -36,7 +36,7 @@ VFS_LIBDIR	= $(libdir)/vfs
 # then rerun configure before you can build.
 
 # Change these targets to the names of your modules if building out of tree
-MODULES		= vfs_python.@SHLIBEXT@ 
+MODULES		= vfs_python.@SHLIBEXT@
 
 all: $(MODULES)
 
@@ -49,7 +49,7 @@ all: $(MODULES)
 
 .c.@SHLIBEXT@:
 	@echo "Compiling $<"
-	@$(CC) $(FLAGS) -c $< -D$*_init=samba_init_module
+	@$(CC) $(FLAGS) -c $< -c commands/* -D$*_init=samba_init_module
 	@echo "Linking $@"
 	@$(CC) $(LDSHFLAGS) $(LDFLAGS) $*.@OBJEXT@ -o $*.@SHLIBEXT@ $(LDSUFFIX)
 
