@@ -104,6 +104,31 @@ NTSTATUS python_create_file(struct vfs_handle_struct *handle,
     {
         return NT_STATUS_UNSUCCESSFUL;
     }
+}
 
+int python_rename(vfs_handle_struct *handle,
+                const struct smb_filename *smb_fname_src,
+                const struct smb_filename *smb_fname_dst)
+{
+    int success = 1;
 
+    PyObject *py_func = get_func(handle, "rename");
+    if (py_func != NULL)
+    {
+        PyObject *py_ret = PyObject_CallFunction(py_func,
+                                                 "ss",
+                                                 smb_fname_src->base_name,
+                                                 smb_fname_dst->base_name);
+        success = PyObject_IsTrue(py_ret);
+        Py_DECREF(py_ret);
+    }
+
+    if (success == 1)
+    {
+        return SMB_VFS_NEXT_RENAME(handle, smb_fname_src, smb_fname_dst);
+    }
+    else
+    {
+        return -1;
+    }
 }

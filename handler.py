@@ -15,3 +15,9 @@ def create_file(path):
     if path == 'bad_file':
         return False
     return True
+
+def rename(source, target):
+    debug('Rename file: {} -> {}'.format(source, target))
+    if target == 'bad_file':
+        return False
+    return True

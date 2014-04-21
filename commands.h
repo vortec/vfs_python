@@ -25,3 +25,6 @@ NTSTATUS python_create_file(struct vfs_handle_struct *handle,
                             struct ea_list *ea_list,
                             files_struct **result,
                             int *pinfo);
+int python_rename(vfs_handle_struct *handle,
+                  const struct smb_filename *smb_fname_src,
+                  const struct smb_filename *smb_fname_dst);
