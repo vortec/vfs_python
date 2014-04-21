@@ -24,9 +24,13 @@ In your smb.conf, enable vfs_python per share:
 and make sure that the script path is valid.
 
 The Python code
--------------------
+---------------
 Take a look at [the `handler.py`](https://github.com/vortec/vfs_python/blob/master/handler.py) to see how it looks like and which Samba calls are supported at the moment (hint: not too many).
 
 When a user performs an action, the corresponding Python function will be called. You can either allow or deny that action by returning a boolean.
 
 The Python script will be imported every time a user connects and is valid for the duration of the connection.
+
+Current status
+--------------
+This is experimental, my C skills have plenty of room for improvement and if your Python code raises an exception the Samba daemon will crash. I plan to address all those things, but right now it is what it is. Any contribution would be greatly appreciated. :)
