@@ -14,7 +14,7 @@ Clone this repository, then compile as follows:
 
 Copy / symlink the resulting `vfs_python.so` to `/usr/local/samba/lib/vfs/python.so` (or wherever your VFS modules are).
 
-In your smb.conf, enable vfs_python per share:
+In your `smb.conf`, enable `vfs_python` per share:
 
     [myshare]
     path = /tmp
