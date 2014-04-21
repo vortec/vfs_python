@@ -49,9 +49,9 @@ all: $(MODULES)
 
 .c.@SHLIBEXT@:
 	@echo "Compiling $<"
-	@$(CC) $(FLAGS) -c $< -c commands/* -D$*_init=samba_init_module
+	@$(CC) $(FLAGS) -c $< -c commands.c -c python_importer.c -D$*_init=samba_init_module
 	@echo "Linking $@"
-	@$(CC) $(LDSHFLAGS) $(LDFLAGS) $*.@OBJEXT@ -o $*.@SHLIBEXT@ $(LDSUFFIX)
+	@$(CC) $(LDSHFLAGS) $(LDFLAGS) *.o -o $*.so $(LDSUFFIX)
 
 # You might need to uncomment this if you have other .c files to compile
 #.c.@OBJEXT@:
