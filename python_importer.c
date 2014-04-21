@@ -1,8 +1,3 @@
-#include "include/includes.h"
-#include "../lib/util/tevent_unix.h"
-#include "../lib/util/tevent_ntstatus.h"
-#include "python2.7/Python.h"
-
 #include "python_importer.h"
 
 PyObject *py_handler;
