@@ -5,7 +5,7 @@ An experimental Samba module which lets you control execution of Samba actions i
 
 Installation
 ------------
-You must have the Python headers installed (python-dev) and the Samba sourcecode lying around.
+You must have the Python headers installed (`python-dev`) and the Samba sourcecode lying around.
 
 Clone this repository, then compile as follows:
 
@@ -33,4 +33,4 @@ The Python script will be imported every time a user connects and is valid for t
 
 Current status
 --------------
-This is experimental, my C skills have plenty of room for improvement and if your Python code raises an exception the Samba daemon will crash. I plan to address all those things, but right now it is what it is. Any contribution would be greatly appreciated. :)
+This is experimental, my C skills have plenty of room for improvement and if your Python code raises an exception the Samba daemon will crash. I plan to address all those things, but right now it is what it is. Any contribution is greatly appreciated. :)
