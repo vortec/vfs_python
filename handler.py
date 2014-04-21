@@ -12,4 +12,6 @@ def mkdir(path):
 
 def create_file(path):
     debug('Create file: {}'.format(path))
-    return False
+    if path == 'bad_file':
+        return False
+    return True
