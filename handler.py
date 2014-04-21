@@ -10,6 +10,12 @@ def mkdir(path):
     debug('Create dir: {}'.format(path))
     return True
 
+def rmdir(path):
+    debug('Remove dir: {}'.format(path))
+    if path == 'dont_touch_this':
+        return False
+    return True
+
 def create_file(path):
     debug('Create file: {}'.format(path))
     if path == 'bad_file':

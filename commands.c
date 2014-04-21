@@ -12,6 +12,7 @@ int python_connect(vfs_handle_struct *handle,
         PyObject *py_ret = PyObject_CallFunction(py_func, "ss", service, user);
         success = PyObject_IsTrue(py_ret);
         Py_DECREF(py_ret);
+        Py_DECREF(py_func);
     }
 
     if (success == 1)
@@ -42,11 +43,35 @@ int python_mkdir(vfs_handle_struct *handle,
         PyObject *py_ret = PyObject_CallFunction(py_func, "s", path);
         success = PyObject_IsTrue(py_ret);
         Py_DECREF(py_ret);
+        Py_DECREF(py_func);
     }
 
     if (success == 1)
     {
         return SMB_VFS_NEXT_MKDIR(handle, path, mode);
+    }
+    else
+    {
+        return -1;
+    }
+}
+
+int python_rmdir(vfs_handle_struct *handle, const char *path)
+{
+    int success = 1;
+
+    PyObject *py_func = get_func(handle, "rmdir");
+    if (py_func != NULL)
+    {
+        PyObject *py_ret = PyObject_CallFunction(py_func, "s", path);
+        success = PyObject_IsTrue(py_ret);
+        Py_DECREF(py_ret);
+        Py_DECREF(py_func);
+    }
+
+    if (success == 1)
+    {
+        return SMB_VFS_NEXT_RMDIR(handle, path);
     }
     else
     {
@@ -79,6 +104,7 @@ NTSTATUS python_create_file(struct vfs_handle_struct *handle,
         PyObject *py_ret = PyObject_CallFunction(py_func, "s", smb_fname->base_name);
         success = PyObject_IsTrue(py_ret);
         Py_DECREF(py_ret);
+        Py_DECREF(py_func);
     }
 
     if (success == 1)
@@ -121,6 +147,7 @@ int python_rename(vfs_handle_struct *handle,
                                                  smb_fname_dst->base_name);
         success = PyObject_IsTrue(py_ret);
         Py_DECREF(py_ret);
+        Py_DECREF(py_func);
     }
 
     if (success == 1)

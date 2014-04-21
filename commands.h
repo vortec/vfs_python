@@ -8,6 +8,7 @@ void python_disconnect(vfs_handle_struct *handle);
 int python_mkdir(vfs_handle_struct *handle,
                  const char *path,
                  mode_t mode);
+int python_rmdir(vfs_handle_struct *handle, const char *path);
 
 NTSTATUS python_create_file(struct vfs_handle_struct *handle,
                             struct smb_request *req,
