@@ -9,3 +9,7 @@ def connect(service='default', user='default'):
 def mkdir(path):
     debug('Create dir: {}'.format(path))
     return True
+
+def create_file(path):
+    debug('Create file: {}'.format(path))
+    return True
