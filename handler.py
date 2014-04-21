@@ -12,4 +12,4 @@ def mkdir(path):
 
 def create_file(path):
     debug('Create file: {}'.format(path))
-    return True
+    return False

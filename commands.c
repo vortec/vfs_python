@@ -100,6 +100,10 @@ NTSTATUS python_create_file(struct vfs_handle_struct *handle,
                                         result,
                                         pinfo);
     }
+    else
+    {
+        return NT_STATUS_UNSUCCESSFUL;
+    }
 
 
 }
