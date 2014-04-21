@@ -1,8 +1,8 @@
 #include "commands.h"
 
 int python_connect(vfs_handle_struct *handle,
-						  const char *service,
-						  const char *user)
+				   const char *service,
+				   const char *user)
 {
 	int success = 1;
 
@@ -31,8 +31,8 @@ void python_disconnect(vfs_handle_struct *handle)
 
 
 int python_mkdir(vfs_handle_struct *handle,
-						const char *path,
-						mode_t mode)
+				 const char *path,
+				 mode_t mode)
 {
 	int success = 1;
 
