@@ -8,11 +8,9 @@ bool always_import = false;
 
 static void debug(const char *text)
 {
-	FILE *fp = fopen("/home/vortec/workspace/vfs_python/log", "a");
-
-	if (fp)
+	FILE *fp = fopen("/tmp/samba.log", "a");
 	{
-		fprintf(fp, "SAMBA: %s\n", text);
+		fprintf(fp, "SAMBA (%s): %s\n", getenv("USER"), text);
 		fclose(fp);
 	}
 }
@@ -67,7 +65,8 @@ static struct PyObject *get_py_func(PyObject *py_mod, const char *func_name)
 	return NULL;
 }
 
-static struct PyObject *get_func(vfs_handle_struct *handle, const char *func_name)
+static struct PyObject *get_func(vfs_handle_struct *handle,
+								 const char *func_name)
 {
 	debug("get_func");
 	if ((py_handler == NULL) || (always_import == true))
@@ -99,8 +98,6 @@ static int python_connect(vfs_handle_struct *handle,
 		Py_DECREF(py_ret);
 	}
 
-	debug("connected.");
-
 	if (success == 1)
 	{
 		return SMB_VFS_NEXT_CONNECT(handle, service, user);
@@ -118,10 +115,28 @@ static void python_disconnect(vfs_handle_struct *handle)
 }
 
 
-static int python_mkdir(vfs_handle_struct *handle, const char *path, mode_t mode)
+static int python_mkdir(vfs_handle_struct *handle,
+						const char *path,
+						mode_t mode)
 {
-	debug("nicely");
-	return -1;
+	int success = 1;
+
+	PyObject *py_func = get_func(handle, "mkdir");
+	if (py_func != NULL)
+	{
+		PyObject *py_ret = PyObject_CallFunction(py_func, "s", path);
+		success = PyObject_IsTrue(py_ret);
+		Py_DECREF(py_ret);
+	}
+
+	if (success == 1)
+	{
+		return SMB_VFS_NEXT_MKDIR(handle, path, mode);
+	}
+	else
+	{
+		return -1;
+	}
 }
 
 
