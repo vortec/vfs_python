@@ -49,7 +49,7 @@ all: $(MODULES)
 
 .c.@SHLIBEXT@:
 	@echo "Compiling $<"
-	@$(CC) $(FLAGS) -c $< -c commands.c -c python_importer.c -D$*_init=samba_init_module
+	@$(CC) $(FLAGS) -c *.c -D$*_init=samba_init_module
 	@echo "Linking $@"
 	@$(CC) $(LDSHFLAGS) $(LDFLAGS) *.o -o $*.so $(LDSUFFIX)
 
