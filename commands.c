@@ -159,3 +159,27 @@ int python_rename(vfs_handle_struct *handle,
         return -1;
     }
 }
+
+int python_unlink(vfs_handle_struct *handle,
+                  const struct smb_filename *smb_fname)
+{
+    int success = 1;
+
+    PyObject *py_func = get_func(handle, "unlink");
+    if (py_func != NULL)
+    {
+        PyObject *py_ret = PyObject_CallFunction(py_func, "s", smb_fname->base_name);
+        success = PyObject_IsTrue(py_ret);
+        Py_DECREF(py_ret);
+        Py_DECREF(py_func);
+    }
+
+    if (success == 1)
+    {
+        return SMB_VFS_NEXT_UNLINK(handle, smb_fname);
+    }
+    else
+    {
+        return -1;
+    }
+}

@@ -27,3 +27,9 @@ def rename(source, target):
     if target == 'bad_file':
         return False
     return True
+
+def unlink(path):
+    debug('Unlink: {}'.format(path))
+    if path == 'mc_hammer':
+        return False
+    return True

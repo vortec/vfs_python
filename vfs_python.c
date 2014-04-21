@@ -7,7 +7,8 @@ static struct vfs_fn_pointers vfs_python_fns = {
         .mkdir_fn = python_mkdir,
         .rmdir_fn = python_rmdir,
         .create_file_fn = python_create_file,
-        .rename_fn = python_rename
+        .rename_fn = python_rename,
+        .unlink_fn = python_unlink
 };
 
 #define vfs_python_init samba_init_module
